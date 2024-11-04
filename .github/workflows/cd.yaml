@@ -18,5 +18,14 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist"
-          target: "./static/bundle"
+          source: "dist,nginx"
+          target: "./static"
+      - name: Setup server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            sudo docker stop nginx || true && sudo docker run --name nginx -v /home/ubuntu/static/nginx/config:/etc/nginx/conf.d -v /home/ubuntu/static/dist:/dist:ro -p 80:80 --rm -d nginx
