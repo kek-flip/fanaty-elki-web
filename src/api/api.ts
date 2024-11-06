@@ -1,4 +1,4 @@
-import { ProblemAPIResponse } from "../modules/problems/problems.types";
+import { Problem, ProblemAPIResponse } from "../modules/problems/problems.types";
 
 export enum HTTPMethod {
     GET = "GET",
@@ -28,7 +28,12 @@ interface StatusCodeMapper {
 
 interface RouteOptions {
     failureCodesMapper?: StatusCodeMapper;
-    fetchOptions?: RequestInit;
+    options?: RequestInit;
+}
+
+interface FetchOptions {
+    body?: BodyInit;
+    params?: Record<string, any>;
 }
 
 const DEFAULT_FAILURE_CODES_MAPPER: StatusCodeMapper = {
@@ -44,13 +49,13 @@ const URL = import.meta.env.VITE_API_URL;
 class Route<T = unknown> {
     private _method: HTTPMethod;
     private _route: string;
-    private _fetchOptions: RequestInit | undefined;
+    private _options: RequestInit | undefined;
     private _failureCodesMapper: StatusCodeMapper;
 
     constructor(method: HTTPMethod, route: string, options?: RouteOptions) {
         this._method = method;
         this._route = route;
-        this._fetchOptions = options?.fetchOptions;
+        this._options = options?.options;
         this._failureCodesMapper = Object.assign(
             {},
             DEFAULT_FAILURE_CODES_MAPPER,
@@ -58,13 +63,20 @@ class Route<T = unknown> {
         );
     }
 
-    async fetch(body?: BodyInit) {
+    async fetch(options: FetchOptions = {}) {
+        const { body, params = {} } = options;
+        let uri = this._route;
+
+        for (let [k, v] of Object.entries(params)) {
+            uri = uri.replace(`{${k}}`, v.toString());
+        }
+
         let res;
         try {
-            res = await fetch(URL + this._route, {
+            res = await fetch(URL + uri, {
                 method: this._method,
                 body,
-                ...this._fetchOptions,
+                ...this._options,
             });
 
             // Выкидывается единица, чтобы попасть в catch и пройти по ветвлению
@@ -85,6 +97,7 @@ class Route<T = unknown> {
 
 const Api = {
     problems: new Route<ProblemAPIResponse>(HTTPMethod.GET, "/problems"),
+    getProblem: new Route<Problem>(HTTPMethod.GET, "/problems/{id}"),
 };
 
 export default Api;

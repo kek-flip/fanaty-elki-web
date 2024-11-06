@@ -1,0 +1,19 @@
+.problem-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .problem-page__title {
+        display: flex;
+
+        font-size: 24px;
+        font-weight: 500;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+
+        gap: 0.5rem;
+    }
+}
