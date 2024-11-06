@@ -1,0 +1,26 @@
+.titled-text {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    width: 100%;
+
+    .title {
+        display: flex;
+
+        width: 100%;
+
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    .text {
+        display: flex;
+
+        width: 100%;
+
+        font-size: 16px;
+    }
+}
+
