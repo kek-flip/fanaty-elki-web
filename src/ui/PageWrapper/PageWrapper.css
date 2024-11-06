@@ -1,0 +1,10 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    margin-top: 1rem;
+    padding-left: var(--side-padding);
+    padding-right: var(--side-padding);
+}
+
