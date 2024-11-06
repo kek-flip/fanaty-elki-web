@@ -2,7 +2,7 @@ export interface Problem {
     id: number;
     title: string;
     description: string;
-    specificlocation: string;
+    specificLocation: string;
     category: string;
     voteCount: number;
     status: string;
