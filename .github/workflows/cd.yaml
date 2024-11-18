@@ -28,4 +28,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo docker stop nginx || true && sudo docker run --name nginx -v /home/ubuntu/static/nginx/config:/etc/nginx/conf.d -v /home/ubuntu/static/dist:/dist:ro -p 80:80 --rm -d nginx
+            sudo docker stop nginx || true && sudo docker run --name nginx -v /home/ubuntu/static/nginx/config:/etc/nginx/conf.d -v /home/ubuntu/static/dist:/dist:ro -v /home/ubuntu/static/media:/media -p 80:80 -p 8002:8002 --rm -d nginx
