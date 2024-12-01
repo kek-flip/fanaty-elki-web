@@ -1,4 +1,4 @@
-name: Deploy Workflow
+name: Deploy chat
 on:
   workflow_dispatch:
 
@@ -6,17 +6,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: production
-    env:
-      VITE_API_URL: ${{ vars.VITE_API_URL }}
     steps:
       - uses: actions/checkout@v4
       - name: build
-        run: npm i && npm run build
+        run: cd ai-chat && npm i && npm run build
       - name: Copy bundle via ssh
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist"
+          source: "ai-chat/dist"
           target: "./static"
