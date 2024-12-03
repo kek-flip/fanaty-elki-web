@@ -1,0 +1,37 @@
+.input-block {
+    display: flex;
+
+    gap: 0.5rem;
+
+    width: 100%;
+
+    padding: 10px;
+}
+
+.input-block__input {
+    display: flex;
+
+    flex-grow: 1;
+
+    padding: 10px;
+
+    border: 1px solid var(--half-black);
+    border-radius: var(--input-round);
+    font-size: var(--font-size);
+}
+
+.input-block__input:focus-visible {
+    border: 1px solid var(--black);
+    outline: none;
+}
+
+.input-block__send-btn {
+    display: flex;
+    background: none;
+    border: none;
+    width: fit-content;
+}
+
+.input-block__send-btn__icon {
+    margin: auto;
+}

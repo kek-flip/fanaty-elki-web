@@ -13,7 +13,12 @@ function getMessageSide(messageIdx: number) {
 }
 
 export function App() {
-    const [messages, setMessages] = useState<string[]>([]);
+    const [messages, setMessages] = useState<string[]>([
+        'Привет! Это городской помощник Лиза. Что у тебя случилось?',
+        'Привет! У меня сломался фонарь, помоги пожалуйста',
+        'Привет! Это городской помощник Лиза. Что у тебя случилось?',
+        'Привет! У меня сломался фонарь, помоги пожалуйста',
+    ]);
 
     const ws = useRef<WebSocket>(null);
 

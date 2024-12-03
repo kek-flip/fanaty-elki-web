@@ -1,0 +1,43 @@
+:root {
+    --round: 13px;
+    --input-round: 8px;
+
+    --yellow-green: #c4dd34;
+    --background: #f9f9f9;
+    --black: #150b0b;
+    --half-black: rgba(21, 11, 11, 0.5);
+
+    --font-size: 16px;
+    --font-family: 'Roboto', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: var(--font-family);
+    font-weight: normal;
+}
+
+.chat {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+}
+
+.chat__messages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 1rem;
+
+    width: 100%;
+}
+
+.chat__input-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
