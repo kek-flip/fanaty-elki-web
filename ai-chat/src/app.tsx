@@ -1,43 +1,79 @@
-import { useState } from 'preact/hooks'
-import preactLogo from './assets/preact.svg'
-import viteLogo from '/vite.svg'
-import './app.css'
+import { useEffect, useRef, useState } from 'preact/hooks';
+import { Message, MessageSide } from './ui/Message/Message';
+import { InputBlock } from './ui/InputBlock/InputBlock';
+
+import './app.css';
+
+const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
 
 export function App() {
-  const [count, setCount] = useState(0)
+    const [messages, setMessages] = useState<Message[]>([]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://preactjs.com" target="_blank">
-          <img src={preactLogo} class="logo preact" alt="Preact logo" />
-        </a>
-      </div>
-      <h1>Vite + Preact</h1>
-      <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/app.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p>
-        Check out{' '}
-        <a
-          href="https://preactjs.com/guide/v10/getting-started#create-a-vite-powered-preact-app"
-          target="_blank"
-        >
-          create-preact
-        </a>
-        , the official Preact + Vite starter
-      </p>
-      <p class="read-the-docs">
-        Click on the Vite and Preact logos to learn more
-      </p>
-    </>
-  )
+    const [error, setError] = useState<string | null>(null);
+
+    const ws = useRef<WebSocket>(null);
+
+    useEffect(() => {
+        if (ws.current) return;
+
+        try {
+            ws.current = new WebSocket(WEBSOCKET_URL);
+        } catch (e) {
+            setError((e as Error).message);
+        }
+
+        return () => {
+            ws.current?.close();
+        };
+    }, []);
+
+    useEffect(() => {
+        function onMessage(e: MessageEvent<string>) {
+            setMessages([
+                ...messages,
+                { text: e.data, side: MessageSide.left },
+            ]);
+        }
+
+        ws.current?.addEventListener('message', onMessage);
+
+        return () => {
+            ws.current?.removeEventListener('message', onMessage);
+        };
+    }, [messages, setMessages]);
+
+    useEffect(() => {
+        function onError() {
+            setError('Ошибка при получении сообщения');
+        }
+
+        ws.current?.addEventListener('error', onError);
+
+        return () => {
+            ws.current?.addEventListener('error', onError);
+        };
+    }, [error, setError]);
+
+    function sendMessage(message: string) {
+        if (!ws.current) return;
+        ws.current.send(message);
+        setMessages([...messages, { text: message, side: MessageSide.right }]);
+    }
+
+    if (error) {
+        return <div>Ошибка "{error}", попробуйте позже</div>;
+    }
+
+    return (
+        <div class="chat">
+            <div class="chat__messages">
+                {messages.map((message, idx) => (
+                    <Message key={idx} {...message} />
+                ))}
+            </div>
+            <div class="chat__input-block">
+                <InputBlock onSend={(message) => sendMessage(message)} />
+            </div>
+        </div>
+    );
 }

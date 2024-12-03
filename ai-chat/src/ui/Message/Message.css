@@ -1,0 +1,34 @@
+.message {
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;
+}
+
+.message_left {
+    justify-content: start;
+}
+
+.message_right {
+    justify-content: end;
+}
+
+.message__message {
+    display: flex;
+    
+    max-width: 60%;
+
+    padding: 10px 12.5px;
+    border-radius: var(--round);
+
+    color: var(--black);
+    word-break: break-word;
+}
+
+.message__message_left {
+    background-color: var(--yellow-green);
+}
+
+.message__message_right {
+    background-color: var(--background);
+}
