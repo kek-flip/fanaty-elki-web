@@ -4,28 +4,23 @@ import { InputBlock } from './ui/InputBlock/InputBlock';
 
 import './App.css';
 
-function getMessageSide(messageIdx: number) {
-    if (messageIdx % 2 === 0) {
-        return MessageSide.left;
-    } else {
-        return MessageSide.right;
-    }
-}
+const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
 
 export function App() {
-    const [messages, setMessages] = useState<string[]>([
-        'Привет! Это городской помощник Лиза. Что у тебя случилось?',
-        'Привет! У меня сломался фонарь, помоги пожалуйста',
-        'Привет! Это городской помощник Лиза. Что у тебя случилось?',
-        'Привет! У меня сломался фонарь, помоги пожалуйста',
-    ]);
+    const [messages, setMessages] = useState<Message[]>([]);
+
+    const [error, setError] = useState<string | null>(null);
 
     const ws = useRef<WebSocket>(null);
 
     useEffect(() => {
         if (ws.current) return;
 
-        ws.current = new WebSocket('ws://176.114.91.154:8001/echo');
+        try {
+            ws.current = new WebSocket(WEBSOCKET_URL);
+        } catch (e) {
+            setError((e as Error).message);
+        }
 
         return () => {
             ws.current?.close();
@@ -34,7 +29,10 @@ export function App() {
 
     useEffect(() => {
         function onMessage(e: MessageEvent<string>) {
-            setMessages([...messages, e.data]);
+            setMessages([
+                ...messages,
+                { text: e.data, side: MessageSide.left },
+            ]);
         }
 
         ws.current?.addEventListener('message', onMessage);
@@ -42,19 +40,35 @@ export function App() {
         return () => {
             ws.current?.removeEventListener('message', onMessage);
         };
-    }, [messages]);
+    }, [messages, setMessages]);
+
+    useEffect(() => {
+        function onError() {
+            setError('Ошибка при получении сообщения');
+        }
+
+        ws.current?.addEventListener('error', onError);
+
+        return () => {
+            ws.current?.addEventListener('error', onError);
+        };
+    }, [error, setError]);
 
     function sendMessage(message: string) {
         if (!ws.current) return;
         ws.current.send(message);
-        setMessages([...messages, message]);
+        setMessages([...messages, { text: message, side: MessageSide.right }]);
+    }
+
+    if (error) {
+        return <div>Ошибка "{error}", попробуйте позже</div>;
     }
 
     return (
         <div class="chat">
             <div class="chat__messages">
-                {messages.map((text, idx) => (
-                    <Message key={idx} text={text} side={getMessageSide(idx)} />
+                {messages.map((message, idx) => (
+                    <Message key={idx} {...message} />
                 ))}
             </div>
             <div class="chat__input-block">

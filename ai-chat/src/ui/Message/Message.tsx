@@ -7,10 +7,12 @@ export const enum MessageSide {
     left = 'left',
 }
 
-export interface MessageProps {
+export interface Message {
     text: string;
     side: MessageSide;
 }
+
+export interface MessageProps extends Message {}
 
 export function Message({ text, side }: MessageProps) {
     return (

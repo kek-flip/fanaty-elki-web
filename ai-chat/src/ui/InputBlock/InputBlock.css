@@ -6,6 +6,8 @@
     width: 100%;
 
     padding: 10px;
+
+    box-shadow: 0px -2px 4px 0px var(--quater-black);
 }
 
 .input-block__input {
