@@ -75,10 +75,14 @@ export function App() {
         };
     }, [error, setError]);
 
-    function sendMessage(message: string) {
+    function sendMessage() {
         // if (!ws.current) return;
         // ws.current.send(message);
-        setMessages([...messages, { text: message, side: MessageSide.right }]);
+
+        //@ts-ignore
+        window.AndroidInterface.createProblem('Резня', 'Грызня', 'Возня');
+
+        // setMessages([...messages, { text: message, side: MessageSide.right }]);
     }
 
     if (error) {
@@ -93,7 +97,7 @@ export function App() {
                 ))}
             </div>
             <div class="chat__input-block">
-                <InputBlock onSend={(message) => sendMessage(message)} />
+                <InputBlock onSend={() => sendMessage()} />
             </div>
         </div>
     );
