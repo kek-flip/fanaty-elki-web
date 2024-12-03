@@ -80,7 +80,7 @@ export function App() {
         // ws.current.send(message);
 
         //@ts-ignore
-        window.AndroidInterface.createProblem('Резня', 'Грызня', 'Возня');
+        window.AndroidInterface.createProblem('shysh', 'aboba', 'penis');
 
         // setMessages([...messages, { text: message, side: MessageSide.right }]);
     }
