@@ -76,8 +76,8 @@ export function App() {
     }, [error, setError]);
 
     function sendMessage(message: string) {
-        if (!ws.current) return;
-        ws.current.send(message);
+        // if (!ws.current) return;
+        // ws.current.send(message);
         setMessages([...messages, { text: message, side: MessageSide.right }]);
     }
 
