@@ -4,10 +4,31 @@ import { InputBlock } from './ui/InputBlock/InputBlock';
 
 import './app.css';
 
-const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
+// const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
 
 export function App() {
-    const [messages, setMessages] = useState<Message[]>([]);
+    const [messages, setMessages] = useState<Message[]>([
+        {
+            text: 'Привет! Это городской помощник Лиза. Что у тебя случилось?',
+            side: MessageSide.left,
+        },
+        {
+            text: 'Привет! Это городской помощник Лиза. Что у тебя случилось?',
+            side: MessageSide.right,
+        },
+        {
+            text: 'Привет! Это городской помощник Лиза. Что у тебя случилось?',
+            side: MessageSide.left,
+        },
+        {
+            text: 'Привет! Это городской помощник Лиза. Что у тебя случилось?',
+            side: MessageSide.right,
+        },
+        {
+            text: 'Привет! Это городской помощник Лиза. Что у тебя случилось?',
+            side: MessageSide.left,
+        },
+    ]);
 
     const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +38,7 @@ export function App() {
         if (ws.current) return;
 
         try {
-            ws.current = new WebSocket(WEBSOCKET_URL);
+            // ws.current = new WebSocket(WEBSOCKET_URL);
         } catch (e) {
             setError((e as Error).message);
         }
