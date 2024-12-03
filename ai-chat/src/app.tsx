@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { Message, MessageSide } from './ui/Message/Message';
 import { InputBlock } from './ui/InputBlock/InputBlock';
 
-import './App.css';
+import './app.css';
 
 const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
 
