@@ -1,34 +1,16 @@
-.message {
+.last-message__message {
     display: flex;
-    flex-direction: row;
-
-    width: 100%;
+    flex-direction: column;
 }
 
-.message_left {
-    justify-content: start;
-}
-
-.message_right {
-    justify-content: end;
-}
-
-.message__message {
+.last-message__message__control {
     display: flex;
-    
-    max-width: 60%;
-
-    padding: 10px 12.5px;
-    border-radius: var(--round);
-
-    color: var(--black);
-    word-break: break-word;
+    background: none;
+    border: none;
+    font-size: var(--font-size);
+    padding: 5px 10px;
 }
 
-.message__message_left {
-    background-color: var(--yellow-green);
-}
-
-.message__message_right {
-    background-color: var(--background);
+.last-message__message__control_approve {
+    border-bottom: 1px solid var(--quater-black);
 }

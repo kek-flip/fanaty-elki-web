@@ -1,4 +1,4 @@
-// import './LastMessage.css';
+import './LastMessage.css';
 
 export interface LastMessageProps {
     onApprove?: () => void;
@@ -7,18 +7,18 @@ export interface LastMessageProps {
 
 export function LastMessage({ onApprove, onDiscard }: LastMessageProps) {
     return (
-        <div class="last-message">
-            <div className="last-message__message">
+        <div class="message message_right last-message">
+            <div className="message__message message__message_right last-message__message">
                 <button
                     type="button"
-                    class="last-message__message__approve"
+                    class="last-message__message__control last-message__message__control_approve"
                     onClick={() => onApprove?.()}
                 >
                     Да, все верно
                 </button>
                 <button
                     type="button"
-                    class="last-message__message__discard"
+                    class="last-message__message__control last-message__message__control_discard"
                     onClick={() => onDiscard?.()}
                 >
                     Нет, заполню заявку сам
