@@ -25,10 +25,10 @@
     word-break: break-word;
 }
 
-.message__message_left {
+.message__message_right {
     background-color: var(--yellow-green);
 }
 
-.message__message_right {
+.message__message_left {
     background-color: var(--background);
 }
