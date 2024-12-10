@@ -49,9 +49,9 @@ export function App() {
 
                 setLastMessage(true);
             } else {
-                setMessages([...messages, { text, side: MessageSide.left }]);
                 setLastMessage(false);
             }
+            setMessages([...messages, { text, side: MessageSide.left }]);
         }
 
         ws.current?.addEventListener('message', onMessage);
