@@ -7,9 +7,17 @@ import { LastMessage } from './ui/LastMessage/LastMessage';
 
 const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
 
+export interface Problem {
+    title?: string;
+    desc?: string;
+    address?: string;
+}
+
 export function App() {
     const [lastMessage, setLastMessage] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
+
+    const [problem, setProblem] = useState<Problem>({});
 
     const [error, setError] = useState<string | null>(null);
 
@@ -38,15 +46,7 @@ export function App() {
                     .replace('по вашей проблеме создана заявка', '')
                     .split('\n');
 
-                //@ts-ignore
-                window.AndroidInterface.onProblemTitleChange(title);
-
-                //@ts-ignore
-                window.AndroidInterface.onProblemDescriptionChange(desc);
-
-                //@ts-ignore
-                window.AndroidInterface.onSpecificLocationChange(address);
-
+                setProblem({ title, desc, address });
                 setLastMessage(true);
             } else {
                 setLastMessage(false);
@@ -92,8 +92,18 @@ export function App() {
                 {lastMessage && (
                     <LastMessage
                         onApprove={() => {
+                            const {
+                                title = 'Не найдено',
+                                desc = 'Не найдено',
+                                address = 'Не найдено',
+                            } = problem;
+
                             //@ts-ignore
-                            window.AndroidInterface.createProblem();
+                            window.AndroidInterface.createProblem(
+                                title,
+                                desc,
+                                address,
+                            );
                         }}
                         onDiscard={() => {
                             //@ts-ignore
