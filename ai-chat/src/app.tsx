@@ -43,7 +43,7 @@ export function App() {
 
             if (text.startsWith('по вашей проблеме создана заявка')) {
                 const [title, desc, address] = text
-                    .replace('по вашей проблеме создана заявка', '')
+                    .replace('по вашей проблеме создана заявка:', '')
                     .split('\n');
 
                 setProblem({ title, desc, address });
