@@ -1,0 +1,16 @@
+.last-message__message {
+    display: flex;
+    flex-direction: column;
+}
+
+.last-message__message__control {
+    display: flex;
+    background: none;
+    border: none;
+    font-size: var(--font-size);
+    padding: 5px 10px;
+}
+
+.last-message__message__control_approve {
+    border-bottom: 1px solid var(--quater-black);
+}
